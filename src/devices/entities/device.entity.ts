@@ -1,4 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { RepairEntity } from 'src/repairs/entities/repair.entity';
+import { UserEntity } from 'src/users/entity/user.entity';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class DevicesEntity {
@@ -16,4 +25,10 @@ export class DevicesEntity {
 
   @Column('text', { array: true, nullable: true })
   images: string[];
+
+  @OneToMany(() => RepairEntity, (repair) => repair.device)
+  repair: RepairEntity[];
+
+  @ManyToMany(() => UserEntity, (user) => user.device)
+  users: UserEntity[];
 }

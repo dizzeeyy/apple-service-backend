@@ -19,6 +19,7 @@ export class UsersService {
   async findById(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: { userId: id },
+      relations: ['repairs', 'device'],
     });
 
     if (!user) {
@@ -28,9 +29,10 @@ export class UsersService {
     return user;
   }
 
-  async findOne(username: string): Promise<UserEntity | null> {
+  async findOne(id: string): Promise<UserEntity | null> {
     const user = await this.userRepository.findOne({
-      where: { username: username },
+      where: { userId: id },
+      relations: ['repairs', 'device'],
     });
 
     if (user) {
@@ -77,6 +79,7 @@ export class UsersService {
     const [data, total] = await this.userRepository.findAndCount({
       take: limit,
       skip: (page - 1) * limit,
+      relations: ['repairs', 'device'],
     });
     return {
       meta: {
@@ -86,17 +89,5 @@ export class UsersService {
       },
       data,
     };
-  }
-
-  async validateRole(username: string): Promise<boolean | null> {
-    const user = await this.findOne(username);
-
-    if (!user) {
-      throw new NotFoundException('User not found.');
-    }
-    if (user.role === 'owner') {
-      return true;
-    }
-    return false;
   }
 }

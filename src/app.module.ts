@@ -8,6 +8,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
 import { DevicesModule } from './devices/devices.module';
+import { RepairsModule } from './repairs/repairs.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { DevicesModule } from './devices/devices.module';
     UsersModule,
     AuthModule,
     DevicesModule,
+    RepairsModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService, JwtService],

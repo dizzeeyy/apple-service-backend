@@ -1,5 +1,14 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DevicesEntity } from 'src/devices/entities/device.entity';
+import { RepairEntity } from 'src/repairs/entities/repair.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class UserEntity {
@@ -22,8 +31,9 @@ export class UserEntity {
   @Column({ default: 'user' })
   role: string;
 
-  @Column({ nullable: true })
-  devices: string;
+  @ManyToMany(() => DevicesEntity, (device) => device.users)
+  @JoinTable()
+  device: DevicesEntity[];
 
   @Column({ name: 'repairs_finished', nullable: true })
   repairsFinished: string;
@@ -33,4 +43,7 @@ export class UserEntity {
 
   @Column({ name: 'refresh_token', nullable: true })
   refreshToken: string;
+
+  @OneToMany(() => RepairEntity, (repair) => repair.user)
+  repairs: RepairEntity[];
 }

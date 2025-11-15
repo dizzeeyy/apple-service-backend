@@ -49,8 +49,8 @@ export class UsersController {
     return await this.usersService.findAll(page, limit);
   }
 
-  @Get(':username')
-  async findOne(@Param() username: string): Promise<UserEntity | null> {
-    return this.usersService.findOne(username);
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<UserEntity | null> {
+    return this.usersService.findOne(id);
   }
 }
