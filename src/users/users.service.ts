@@ -7,7 +7,6 @@ import { AuthService } from 'src/auth/auth.service';
 import { LoginUserDTO } from './dto/login-user.dto';
 
 // This should be a real class/interface representing a user entity
-export type User = any;
 
 @Injectable()
 export class UsersService {
@@ -16,6 +15,18 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     private readonly passwordService: AuthService,
   ) {}
+
+  async findById(id: string): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: { userId: id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    return user;
+  }
 
   async findOne(username: string): Promise<UserEntity | null> {
     const user = await this.userRepository.findOne({
@@ -41,7 +52,7 @@ export class UsersService {
 
   async validateUser(
     loginCredentials: LoginUserDTO,
-  ): Promise<{ access_token }> {
+  ): Promise<{ access_token; userRole }> {
     const user = await this.userRepository.findOne({
       where: { username: loginCredentials.username },
     });
@@ -59,6 +70,33 @@ export class UsersService {
       throw new NotFoundException('Invalid credentials');
     }
     const token = await this.passwordService.generateToken(user);
-    return token;
+    return { ...token, userRole: user.role };
+  }
+
+  async findAll(page = 1, limit = 10) {
+    const [data, total] = await this.userRepository.findAndCount({
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    return {
+      meta: {
+        total,
+        page,
+        last_page: Math.ceil(total / limit),
+      },
+      data,
+    };
+  }
+
+  async validateRole(username: string): Promise<boolean | null> {
+    const user = await this.findOne(username);
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+    if (user.role === 'owner') {
+      return true;
+    }
+    return false;
   }
 }

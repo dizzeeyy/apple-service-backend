@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { UsersService } from './users.service';
 import { UserEntity } from './entity/user.entity';
@@ -7,8 +15,12 @@ import { LoginUserDTO } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { PaginationDto } from './dto/pagination.dto';
+import { AdminOnly } from 'src/auth/decorators/admin-only.decorator';
+import { RolesGuard } from 'src/auth/guards/role-auth.guard';
 
 @ApiBearerAuth('jwt-auth')
+@UseGuards(RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(
@@ -28,6 +40,13 @@ export class UsersController {
     @Body() loginCredential: LoginUserDTO,
   ): Promise<{ access_token }> {
     return await this.usersService.validateUser(loginCredential);
+  }
+
+  @AdminOnly()
+  @Get()
+  async getAll(@Query() paginationDto: PaginationDto) {
+    const { page, limit } = paginationDto;
+    return await this.usersService.findAll(page, limit);
   }
 
   @Get(':username')

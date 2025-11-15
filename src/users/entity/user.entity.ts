@@ -19,6 +19,9 @@ export class UserEntity {
   @Column()
   phone: string;
 
+  @Column({ default: 'user' })
+  role: string;
+
   @Column({ nullable: true })
   devices: string;
 
