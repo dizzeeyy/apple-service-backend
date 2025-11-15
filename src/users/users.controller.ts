@@ -13,7 +13,11 @@ import { UserEntity } from './entity/user.entity';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationDto } from './dto/pagination.dto';
 import { AdminOnly } from 'src/auth/decorators/admin-only.decorator';
@@ -30,12 +34,19 @@ export class UsersController {
 
   @Public()
   @Post('/register')
+  @ApiCreatedResponse({ type: UserEntity })
   async create(@Body() createUserDto: CreateUserDTO): Promise<UserEntity> {
     return await this.usersService.createUser(createUserDto);
   }
 
   @Public()
   @Post('/login')
+  @ApiOkResponse({
+    example: {
+      access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+      userRole: 'user',
+    },
+  })
   async validateUser(
     @Body() loginCredential: LoginUserDTO,
   ): Promise<{ access_token }> {
@@ -44,6 +55,7 @@ export class UsersController {
 
   @AdminOnly()
   @Get()
+  @ApiOkResponse({ type: UserEntity, isArray: true })
   async getAll(@Query() paginationDto: PaginationDto) {
     const { page, limit } = paginationDto;
     return await this.usersService.findAll(page, limit);
