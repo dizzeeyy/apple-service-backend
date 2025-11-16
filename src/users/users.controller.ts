@@ -65,4 +65,9 @@ export class UsersController {
   async findOne(@Param('id') id: string): Promise<UserEntity | null> {
     return this.usersService.findOne(id);
   }
+
+  @Get('/username/:id')
+  async findOneByUsername(@Param('id') id: string): Promise<UserEntity | null> {
+    return this.usersService.findOneByUsername(id);
+  }
 }

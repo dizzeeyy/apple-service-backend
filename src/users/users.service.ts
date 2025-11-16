@@ -41,6 +41,18 @@ export class UsersService {
     throw new NotFoundException('User not found.');
   }
 
+  async findOneByUsername(id: string): Promise<UserEntity | null> {
+    const user = await this.userRepository.findOne({
+      where: { username: id },
+      relations: ['repairs', 'device'],
+    });
+
+    if (user) {
+      return user;
+    }
+    throw new NotFoundException('User not found.');
+  }
+
   async createUser(createUserDto: CreateUserDTO): Promise<UserEntity> {
     const hashedPassword = await this.passwordService.hashPassword(
       createUserDto.password,
