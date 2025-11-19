@@ -1,4 +1,10 @@
-import { IsEnum, IsUUID, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsUUID,
+  IsOptional,
+  IsString,
+  IsNotEmpty,
+} from 'class-validator';
 import { RepairStatus, ToRepair } from '../entities/repair.entity';
 
 export class CreateRepairDto {
@@ -8,6 +14,9 @@ export class CreateRepairDto {
 
   @IsUUID()
   deviceId: string;
+
+  @IsNotEmpty()
+  serialNumber: string;
 
   @IsOptional()
   @IsUUID()

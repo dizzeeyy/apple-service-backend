@@ -52,6 +52,11 @@ export class RepairsController {
     return this.repairsService.findOneByNumber(number);
   }
 
+  @Get('sn/:serial')
+  findBySerial(@Param('serial') serialNumber: string) {
+    return this.repairsService.findBySerial(serialNumber);
+  }
+
   @Patch('/status')
   updateStatus(@Body() updateStatusDTO: UpdateStatusDto) {
     return this.repairsService.updateStatus(

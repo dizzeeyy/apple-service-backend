@@ -40,11 +40,6 @@ export class DevicesController {
     return this.devicesService.findOne(id);
   }
 
-  // @Get('sn/:serial')
-  // findBySerial(@Param('serial') serialNumber: string) {
-  //   return this.devicesService.findBySerial(serialNumber);
-  // }
-
   @AdminOnly()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDeviceDto: UpdateDeviceDto) {

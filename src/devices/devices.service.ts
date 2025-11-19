@@ -33,13 +33,6 @@ export class DevicesService {
     };
   }
 
-  async findBySerial(serialNumber: string) {
-    return await this.devicesRepository.findOne({
-      where: { serialNumber },
-      relations: ['users', 'repair'],
-    });
-  }
-
   async findOne(id: string) {
     return await this.devicesRepository.findOne({
       where: { id },

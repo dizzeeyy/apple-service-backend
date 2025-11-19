@@ -126,6 +126,13 @@ export class RepairsService {
     return updated;
   }
 
+  async findBySerial(serialNumber: string) {
+    return await this.repairRepository.findOne({
+      where: { serialNumber },
+      relations: ['users', 'repair'],
+    });
+  }
+
   remove(id: string) {
     return `This action removes a #${id} repair`;
   }
