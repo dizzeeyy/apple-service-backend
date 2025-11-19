@@ -14,12 +14,12 @@ export class CreateDeviceDto {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
-  shortDescription: string;
+  @IsOptional()
+  shortDescription?: string;
 
   @IsString()
-  @IsNotEmpty()
-  longDescription: string;
+  @IsOptional()
+  longDescription?: string;
 
   @IsArray()
   @IsOptional()

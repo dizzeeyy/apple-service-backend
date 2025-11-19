@@ -40,10 +40,10 @@ export class DevicesController {
     return this.devicesService.findOne(id);
   }
 
-  @Get('sn/:serial')
-  findBySerial(@Param('serial') serialNumber: string) {
-    return this.devicesService.findBySerial(serialNumber);
-  }
+  // @Get('sn/:serial')
+  // findBySerial(@Param('serial') serialNumber: string) {
+  //   return this.devicesService.findBySerial(serialNumber);
+  // }
 
   @AdminOnly()
   @Patch(':id')

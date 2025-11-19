@@ -43,6 +43,10 @@ export class RepairEntity {
   @Column({ unique: true })
   repairNumber: string;
 
+  @Column({ unique: true })
+  @ApiProperty({ example: 'W2TQQQDJ8K' })
+  serialNumber: string;
+
   @Column({ type: 'enum', enum: RepairStatus, default: RepairStatus.NEW })
   @ApiProperty({ enum: RepairStatus, example: Object.values(RepairStatus) })
   status: RepairStatus;

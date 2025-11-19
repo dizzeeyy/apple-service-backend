@@ -20,10 +20,6 @@ export class DevicesEntity {
   @ApiProperty({ example: 'iPhone 13 Pro Max 256GB (grafitowy)' })
   name: string;
 
-  @Column({ unique: true })
-  @ApiProperty({ example: 'W2TQQQDJ8K' })
-  serialNumber: string;
-
   @Column('text', { array: true, nullable: true })
   @ApiProperty({
     example: ['https://link.to/image1.png', 'https://link.to/image2.png'],
