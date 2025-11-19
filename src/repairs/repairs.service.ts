@@ -42,8 +42,22 @@ export class RepairsService {
       );
     }
 
+    const lastRepair = await this.repairRepository
+      .createQueryBuilder('repair')
+      .orderBy('repair.repairNumber', 'DESC')
+      .getOne();
+
+    let newNumber = 'R-000001';
+
+    if (lastRepair && lastRepair.repairNumber) {
+      const lastNumber = parseInt(lastRepair.repairNumber.split('-')[1], 10);
+      const nextNumber = lastNumber + 1;
+      newNumber = `R-${nextNumber.toString().padStart(6, '0')}`;
+    }
+
     const repair = await this.repairRepository.create({
       ...createRepairDto,
+      repairNumber: newNumber,
       user: user,
       device: device,
     });
@@ -51,15 +65,46 @@ export class RepairsService {
     return await this.repairRepository.save(repair);
   }
 
-  findAll() {
-    return `This action returns all repairs`;
+  async findAll(page: number = 0, limit: number = 10) {
+    const [repairs, total] = await this.repairRepository.findAndCount({
+      skip: page * limit,
+      take: limit,
+      relations: ['device', 'user'],
+    });
+
+    return {
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+      repairs,
+    };
   }
 
   async findOne(id: string) {
-    return this.repairRepository.findOne({
+    const repair = await this.repairRepository.findOne({
       where: { id },
       relations: ['user', 'device'], // ładujemy urządzenie jako relację
     });
+
+    if (!repair) {
+      throw new NotFoundException();
+    }
+    return repair;
+  }
+
+  async findOneByNumber(number: string) {
+    const repair = await this.repairRepository.findOne({
+      where: { repairNumber: number },
+      relations: ['device', 'user'],
+    });
+
+    if (!repair) {
+      throw new NotFoundException();
+    }
+    return repair;
   }
 
   async update(id: string, updateRepairDto: UpdateRepairDto) {
@@ -71,6 +116,14 @@ export class RepairsService {
 
     Object.assign(repair, updateRepairDto);
     return await this.repairRepository.save(repair);
+  }
+
+  async updateStatus(repairNumber: string, status: RepairStatus) {
+    const repair = await this.findOneByNumber(repairNumber);
+
+    const updated = await this.repairRepository.save({ ...repair, status });
+
+    return updated;
   }
 
   remove(id: string) {

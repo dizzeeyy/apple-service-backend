@@ -16,17 +16,13 @@ export class DevicesEntity {
   @ApiProperty({ example: 'aa0710ec-3214-46b9-a647-c4cfa9d4cb9a' })
   id: string;
 
-  @Column({ length: 120, unique: true })
+  @Column({ length: 120 })
   @ApiProperty({ example: 'iPhone 13 Pro Max 256GB (grafitowy)' })
   name: string;
 
-  @Column({ name: 'short_description', length: 255 })
-  @ApiProperty({ example: 'Lorem ipsum...' })
-  shortDescription: string;
-
-  @Column({ name: 'long_description', length: 65353 })
-  @ApiProperty({ example: 'Dior alamet...' })
-  longDescription: string;
+  @Column({ unique: true })
+  @ApiProperty({ example: 'W2TQQQDJ8K' })
+  serialNumber: string;
 
   @Column('text', { array: true, nullable: true })
   @ApiProperty({

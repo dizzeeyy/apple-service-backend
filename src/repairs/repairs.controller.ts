@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { RepairsService } from './repairs.service';
 import { CreateRepairDto } from './dto/create-repair.dto';
@@ -14,6 +17,9 @@ import { UpdateRepairDto } from './dto/update-repair.dto';
 import { RolesGuard } from 'src/auth/guards/role-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { AdminOnly } from 'src/auth/decorators/admin-only.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { RepairStatus } from './entities/repair.entity';
+import { UpdateStatusDto } from './dto/update-status.dto';
 
 @UseGuards(RolesGuard)
 @ApiBearerAuth('jwt-auth')
@@ -21,6 +27,7 @@ import { AdminOnly } from 'src/auth/decorators/admin-only.decorator';
 export class RepairsController {
   constructor(private readonly repairsService: RepairsService) {}
 
+  @Public()
   @Post()
   create(@Body() createRepairDto: CreateRepairDto) {
     return this.repairsService.create(createRepairDto);
@@ -28,13 +35,29 @@ export class RepairsController {
 
   @AdminOnly()
   @Get()
-  findAll() {
-    return this.repairsService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number = 0,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+  ) {
+    return this.repairsService.findAll(page, limit);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.repairsService.findOne(id);
+  }
+
+  @Get('no/:number')
+  findOneByNumber(@Param('number') number: string) {
+    return this.repairsService.findOneByNumber(number);
+  }
+
+  @Patch('/status')
+  updateStatus(@Body() updateStatusDTO: UpdateStatusDto) {
+    return this.repairsService.updateStatus(
+      updateStatusDTO.repairNumber,
+      updateStatusDTO.status,
+    );
   }
 
   @Patch(':id')

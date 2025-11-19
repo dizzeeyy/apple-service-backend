@@ -3,8 +3,10 @@ import { Type } from 'class-transformer';
 import { DevicesEntity } from 'src/devices/entities/device.entity';
 import { UserEntity } from 'src/users/entity/user.entity';
 import {
+  BeforeInsert,
   Column,
   Entity,
+  Generated,
   JoinColumn,
   ManyToOne,
   OneToOne,
@@ -37,6 +39,9 @@ export class RepairEntity {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty({ example: '75b5e9f0-42cb-4f04-a5b2-27738ff4b184' })
   id: string;
+
+  @Column({ unique: true })
+  repairNumber: string;
 
   @Column({ type: 'enum', enum: RepairStatus, default: RepairStatus.NEW })
   @ApiProperty({ enum: RepairStatus, example: Object.values(RepairStatus) })

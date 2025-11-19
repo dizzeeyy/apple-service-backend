@@ -19,5 +19,5 @@ export class CreateRepairDto {
 
   @IsOptional()
   @IsEnum(ToRepair, { each: true })
-  parts: ToRepair[];
+  parts?: ToRepair[];
 }
