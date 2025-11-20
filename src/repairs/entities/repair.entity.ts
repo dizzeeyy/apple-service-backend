@@ -43,7 +43,7 @@ export class RepairEntity {
   @Column({ unique: true })
   repairNumber: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   @ApiProperty({ example: 'W2TQQQDJ8K' })
   serialNumber: string;
 

@@ -133,6 +133,13 @@ export class RepairsService {
     });
   }
 
+  async searchRepairs(repairNumber: string, serialNumber: string) {
+    const repair = await this.repairRepository.find({
+      where: [{ repairNumber }, { serialNumber }],
+      relations: ['device'],
+    });
+  }
+
   remove(id: string) {
     return `This action removes a #${id} repair`;
   }
