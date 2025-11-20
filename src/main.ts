@@ -20,6 +20,10 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalGuards(new JwtAuthGuard(app.get(Reflector)));
 
+  app.enableCors({
+    origin: 'http://repear.pl',
+  });
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
