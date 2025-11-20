@@ -66,8 +66,11 @@ export class RepairsController {
   }
 
   @Post('/search')
-  searchRepairs(@Body() repairNumber: string, serialNumber: string) {
-    return this.repairsService.searchRepairs(repairNumber, serialNumber);
+  searchRepairs(@Body() body: { repairNumber: string; serialNumber: string }) {
+    return this.repairsService.searchRepairs(
+      body.repairNumber,
+      body.serialNumber,
+    );
   }
 
   @Patch(':id')

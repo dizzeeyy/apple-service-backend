@@ -134,10 +134,12 @@ export class RepairsService {
   }
 
   async searchRepairs(repairNumber: string, serialNumber: string) {
-    const repair = await this.repairRepository.find({
-      where: [{ repairNumber }, { serialNumber }],
+    const repair = await this.repairRepository.findOne({
+      where: { repairNumber, serialNumber },
       relations: ['device'],
     });
+
+    return repair;
   }
 
   remove(id: string) {
