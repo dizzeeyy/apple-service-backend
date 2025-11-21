@@ -20,6 +20,7 @@ import { AdminOnly } from 'src/auth/decorators/admin-only.decorator';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { RepairStatus } from './entities/repair.entity';
 import { UpdateStatusDto } from './dto/update-status.dto';
+import { RepairsFormDto } from './dto/form-repair.dto';
 
 @UseGuards(RolesGuard)
 @ApiBearerAuth('jwt-auth')
@@ -31,6 +32,18 @@ export class RepairsController {
   @Post()
   create(@Body() createRepairDto: CreateRepairDto) {
     return this.repairsService.create(createRepairDto);
+  }
+
+  @Public()
+  @Post('/form')
+  createMailForm(@Body() repairsFormDTO: RepairsFormDto) {
+    return this.repairsService.createMailForm(repairsFormDTO);
+  }
+
+  @AdminOnly()
+  @Get('/form/:jobId')
+  getFormJobStatus(@Param('jobId') jobId: string) {
+    return this.repairsService.getEmailJobStatus(jobId);
   }
 
   @AdminOnly()

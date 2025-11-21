@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
 import { DevicesModule } from './devices/devices.module';
 import { RepairsModule } from './repairs/repairs.module';
+import { MailerConfig } from './config/mailer.config';
+import { BullMQConfig } from './config/bullmq.config';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { RepairsModule } from './repairs/repairs.module';
       isGlobal: true,
     }),
     TypeOrmModuleConfig,
+    MailerConfig,
+    BullMQConfig,
     UsersModule,
     AuthModule,
     DevicesModule,

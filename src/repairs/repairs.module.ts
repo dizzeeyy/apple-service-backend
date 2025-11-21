@@ -8,13 +8,27 @@ import { DevicesEntity } from 'src/devices/entities/device.entity';
 import { UserEntity } from 'src/users/entity/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { DevicesService } from 'src/devices/devices.service';
+import { EmailService } from 'src/email/email.service';
+import { EmailProcessor } from 'src/email/email.processor';
+import { BullModule } from '@nestjs/bullmq';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
     AuthModule,
     TypeOrmModule.forFeature([RepairEntity, DevicesEntity, UserEntity]),
+    BullModule.registerQueue({
+      name: 'emailQueue',
+    }),
+    MailerModule,
   ],
   controllers: [RepairsController],
-  providers: [RepairsService, UsersService, DevicesService],
+  providers: [
+    RepairsService,
+    UsersService,
+    DevicesService,
+    EmailService,
+    EmailProcessor,
+  ],
 })
 export class RepairsModule {}

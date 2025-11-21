@@ -8,6 +8,8 @@ import { DevicesEntity } from 'src/devices/entities/device.entity';
 import { UserEntity } from 'src/users/entity/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { DevicesService } from 'src/devices/devices.service';
+import { RepairsFormDto } from './dto/form-repair.dto';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class RepairsService {
@@ -23,6 +25,7 @@ export class RepairsService {
 
     private readonly usersService: UsersService,
     private readonly devicesService: DevicesService,
+    private readonly emailService: EmailService,
   ) {}
 
   async create(createRepairDto: CreateRepairDto) {
@@ -147,5 +150,20 @@ export class RepairsService {
 
   remove(id: string) {
     return `This action removes a #${id} repair`;
+  }
+
+  async createMailForm(repairsFormDTO: RepairsFormDto): Promise<any> {
+    const job = await this.emailService.queueEmail(repairsFormDTO);
+
+    return { status: 'OK', jobId: job.id };
+  }
+
+  async getEmailJobStatus(jobId: string): Promise<any> {
+    const status = await this.emailService.getJobStatus(jobId);
+
+    if (!status) {
+      throw new NotFoundException();
+    }
+    return status;
   }
 }
