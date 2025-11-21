@@ -8,17 +8,11 @@ export const MailerConfig = MailerModule.forRootAsync({
   useFactory: (configService: ConfigService) => ({
     transport: {
       host: configService.get<string>('MAILER_SMTP'),
-      port: 465,
-      secure: true,
-      auth: {
-        user: configService.get<string>('MAILER_FROM_ADDRESS'),
-        pass: configService.get<string>('MAILER_PASSWORD'),
-      },
       logger: true,
       debug: true,
     },
     defaults: {
-      from: `"Serwis Repear.pl" <naprawy@repear.pl>`,
+      from: `"Serwis Repear.pl" <serwis@repear.pl>`,
     },
     template: {
       dir: templatePath,
