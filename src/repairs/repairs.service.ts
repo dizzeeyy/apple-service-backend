@@ -139,6 +139,9 @@ export class RepairsService {
       relations: ['device'],
     });
 
+    if (!repair) {
+      throw new NotFoundException();
+    }
     return repair;
   }
 
