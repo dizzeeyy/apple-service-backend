@@ -5,7 +5,12 @@ import { config } from 'process';
 export const BullMQConfig = BullModule.forRootAsync({
   imports: [ConfigModule],
   useFactory: async (configService: ConfigService) => ({
-    connection: { url: configService.get<string>('QUEUE_HOST') },
+    connection: {
+      host: configService.get<string>('QUEUE_HOST'),
+      username: configService.get<string>('QUEUE_USER'),
+      password: configService.get<string>('QUEUE_PASSWORD'),
+      port: configService.get<number>('QUEUE_PORT'),
+    },
   }),
   inject: [ConfigService],
 });
