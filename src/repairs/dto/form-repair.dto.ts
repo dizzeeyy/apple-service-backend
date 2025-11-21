@@ -6,6 +6,9 @@ export class RepairsFormDto {
   email: string;
 
   @IsString()
+  name: string;
+
+  @IsString()
   serialNumber: string;
 
   @IsString()

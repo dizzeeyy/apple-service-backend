@@ -29,6 +29,7 @@ export class EmailProcessor extends WorkerHost {
           description: data.description,
           serialNumber: data.serialNumber,
           phone: data.phone,
+          name: data.name,
         },
       });
       console.log(`Email wysłany do ${data.email}`);
@@ -42,6 +43,7 @@ export class EmailProcessor extends WorkerHost {
           serialNumber: data.serialNumber,
           phone: data.phone,
           description: data.description,
+          name: data.name,
         },
       });
     } catch (error) {
