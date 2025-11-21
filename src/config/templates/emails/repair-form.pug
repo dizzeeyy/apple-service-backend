@@ -5,16 +5,17 @@ html
     title Formularz naprawy: #{serialNumber}
   body
     h1 Dziękujemy za zgłoszenie naprawy
-    p Numer seryjny urządzenia:
+    p Numer seryjny urządzenia: 
       strong #{serialNumber}
     hr
-    p Otrzymaliśmy od Ciebie następujący opis problemu:
+    p Opis problemu z urządzeniem:
     blockquote
       | #{description}
     hr
+    br
     p
-      | Skontaktujemy się z Tobą na adres: 
-      strong #{email}
+      | Kontakt: 
+      strong #{email} 
       | lub telefonicznie pod nr: #{phone} w celu omówienia dalszych kroków naprawy.
     hr
     p Pozdrawiamy,

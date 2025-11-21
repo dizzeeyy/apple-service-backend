@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    title Dziękujemy za zgłoszenie naprawy!
+  body
+    i Prosimy nie odpowiadać na tę wiadomość, została ona wygenerowana automatycznie.
+    br
+    h1 Dziękujemy za zgłoszenie naprawy!
+    p Otrzymujesz tego maila, ponieważ otrzymaliśmy Twoje zgłoszenie naprawy. Poniżej znajdują się szczegóły zgłoszenia: 
+    p Numer seryjny urządzenia: 
+      strong #{serialNumber}
+    hr
+    p Opis problemu z urządzeniem:
+    blockquote
+      | #{description}
+    br
+    p
+      | Skontaktujemy się z Tobą na adres: 
+      strong #{email} 
+      | lub telefonicznie pod nr: #{phone} w celu omówienia dalszych kroków naprawy.
+    br
+    hr
+    p
+      | W przypadku pytań zachęcamy do kontaktu: 
+      a(href="mailto:serwis@repear.pl") serwis@repear.pl
+      |  lub telefonicznie pod nr 
+      a(href="tel:+48693661462") +48 693 661 462
+    p Pozdrawiamy,
+    p Zespół Serwisu Repear.pl
