@@ -11,9 +11,10 @@ export class EmailProcessor extends WorkerHost {
 
   // Implementujesz abstrakcyjną metodę process
   async process(job: Job<RepairsFormDto>) {
+    console.log(`Dane: ${JSON.stringify(job.data)}`);
     const data = job.data;
     await this.mailerService.sendMail({
-      from: data.email,
+      replyTo: data.email,
       to: 'serwis@repear.pl',
       subject: `Nowe zgłoszenie naprawy: ${data.serialNumber}`,
       template: 'repair-form',
