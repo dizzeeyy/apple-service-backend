@@ -1,7 +1,8 @@
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
-
+import { join } from 'path';
+const templatePath = join(process.cwd(), 'src/config/templates/emails');
 export const MailerConfig = MailerModule.forRootAsync({
   imports: [ConfigModule],
   useFactory: (configService: ConfigService) => ({
@@ -20,7 +21,7 @@ export const MailerConfig = MailerModule.forRootAsync({
       from: `"Serwis Repear.pl" <naprawy@repear.pl>`,
     },
     template: {
-      dir: __dirname + '/templates/emails',
+      dir: templatePath,
       adapter: new PugAdapter(),
       options: {
         strict: true,
