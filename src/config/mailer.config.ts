@@ -18,7 +18,7 @@ export const MailerConfig = MailerModule.forRootAsync({
       debug: true,
     },
     defaults: {
-      from: `"Serwis Repear.pl" <serwis@repear.pl>`,
+      from: `"Serwis Repear.pl" <${configService.get<string>('MAILER_FROM_ADDRESS')}>`,
     },
     template: {
       dir: templatePath,

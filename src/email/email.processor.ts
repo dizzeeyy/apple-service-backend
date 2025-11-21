@@ -2,10 +2,14 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Job } from 'bullmq';
 import { RepairsFormDto } from 'src/repairs/dto/form-repair.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Processor('emailQueue')
 export class EmailProcessor extends WorkerHost {
-  constructor(private readonly mailerService: MailerService) {
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly configService: ConfigService,
+  ) {
     super();
   }
 
