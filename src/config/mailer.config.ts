@@ -9,6 +9,10 @@ export const MailerConfig = MailerModule.forRootAsync({
     transport: {
       host: configService.get<string>('MAILER_SMTP'),
       secure: true,
+      auth: {
+        user: configService.get<string>('MAILER_FROM_ADDRESS'),
+        pass: configService.get<string>('MAILER_PASSWORD'),
+      },
       logger: true,
       debug: true,
     },
