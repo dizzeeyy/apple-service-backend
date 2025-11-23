@@ -78,6 +78,7 @@ export class RepairsController {
     );
   }
 
+  @Public()
   @Post('/search')
   searchRepairs(@Body() body: { repairNumber: string; serialNumber: string }) {
     return this.repairsService.searchRepairs(
