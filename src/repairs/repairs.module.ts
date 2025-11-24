@@ -12,11 +12,18 @@ import { EmailService } from 'src/email/email.service';
 import { EmailProcessor } from 'src/email/email.processor';
 import { BullModule } from '@nestjs/bullmq';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { PartEntity } from 'src/parts/entities/parts.entity';
 
 @Module({
   imports: [
     AuthModule,
-    TypeOrmModule.forFeature([RepairEntity, DevicesEntity, UserEntity]),
+    TypeOrmModule.forFeature([
+      RepairEntity,
+      DevicesEntity,
+      UserEntity,
+      RepairEntity,
+      PartEntity,
+    ]),
     BullModule.registerQueue({
       name: 'emailQueue',
     }),

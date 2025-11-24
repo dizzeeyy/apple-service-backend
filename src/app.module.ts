@@ -11,6 +11,7 @@ import { DevicesModule } from './devices/devices.module';
 import { RepairsModule } from './repairs/repairs.module';
 import { MailerConfig } from './config/mailer.config';
 import { BullMQConfig } from './config/bullmq.config';
+import { PartsModule } from './parts/parts.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { BullMQConfig } from './config/bullmq.config';
     AuthModule,
     DevicesModule,
     RepairsModule,
+    PartsModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService, JwtService],
