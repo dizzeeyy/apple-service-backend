@@ -3,9 +3,13 @@ import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { setupSwagger } from './config/swagger.config';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { DataSource } from 'typeorm';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const dataSource = app.get(DataSource);
+  await dataSource.runMigrations();
 
   app.useGlobalPipes(
     new ValidationPipe({
