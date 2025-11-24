@@ -42,6 +42,8 @@ export class PartsService {
         page,
         limit,
         totalPages: Math.ceil(total / limit),
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPreviousPage: page > 1,
       },
       sorting: {
         sortBy: sortField,
