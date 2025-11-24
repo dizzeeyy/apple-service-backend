@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { DevicesEntity } from 'src/devices/entities/device.entity';
+import { PartEntity } from 'src/parts/entities/parts.entity';
 import { UserEntity } from 'src/users/entity/user.entity';
 import {
   BeforeInsert,
@@ -8,6 +9,8 @@ import {
   Entity,
   Generated,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -60,18 +63,15 @@ export class RepairEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.repairs)
   @JoinColumn()
+  @ApiProperty({ type: () => UserEntity })
   user: UserEntity;
 
-  @Column({
-    type: 'enum',
-    enum: ToRepair,
-    array: true,
-    default: [ToRepair.TBA],
+  @ManyToMany(() => PartEntity, { eager: true })
+  @JoinTable({
+    name: 'repair_parts',
+    joinColumn: { name: 'repairId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'partId', referencedColumnName: 'id' },
   })
-  @ApiProperty({
-    enum: ToRepair,
-    isArray: true,
-    example: Object.values(ToRepair),
-  })
-  parts: ToRepair[];
+  @ApiProperty({ type: () => PartEntity, isArray: true })
+  parts: PartEntity[];
 }

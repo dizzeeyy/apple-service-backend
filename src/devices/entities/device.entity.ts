@@ -27,8 +27,10 @@ export class DevicesEntity {
   images: string[];
 
   @OneToMany(() => RepairEntity, (repair) => repair.device)
+  @ApiProperty({ type: () => RepairEntity })
   repair: RepairEntity[];
 
   @ManyToMany(() => UserEntity, (user) => user.device)
+  @ApiProperty({ type: () => UserEntity, isArray: true })
   users: UserEntity[];
 }
