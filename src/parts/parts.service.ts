@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,20 +16,71 @@ export class PartsService {
     return this.partRepository.save(part);
   }
 
-  async findAll() {
-    return await this.partRepository.findOne({ where: { isActive: true } });
+  async findAll(
+    page: number = 1,
+    limit: number = 10,
+    sortBy: string = 'name',
+    sortOrder: 'ASC' | 'DESC' = 'ASC',
+  ) {
+    const skip = (page - 1) * limit;
+
+    // Whitelist dozwolonych pól do sortowania (bezpieczeństwo)
+    const allowedSortFields = ['name', 'price', 'type'];
+    const sortField = allowedSortFields.includes(sortBy) ? sortBy : 'name';
+
+    const [parts, total] = await this.partRepository.findAndCount({
+      where: { isActive: true },
+      take: limit,
+      skip: skip,
+      order: { [sortField]: sortOrder }, // Dynamiczne sortowanie
+    });
+
+    return {
+      data: parts,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+      sorting: {
+        sortBy: sortField,
+        sortOrder,
+      },
+    };
   }
 
-  findOne(id: string) {
-    return this.partRepository.findOne({ where: { id } });
+  async findOne(id: string) {
+    const part = await this.partRepository.findOne({
+      where: { id, isActive: true },
+    });
+
+    if (!part) {
+      throw new NotFoundException(`Part with ID ${id} not found`);
+    }
+
+    return part;
   }
 
   async update(id: string, updatePartDto: UpdatePartDto) {
-    await this.partRepository.update(id, updatePartDto);
-    return this.findOne(id);
+    const part = await this.findOne(id);
+
+    if (!part) {
+      throw new NotFoundException();
+    }
+
+    Object.assign(part, updatePartDto);
+    return await this.partRepository.save(part);
   }
 
-  remove(id: string) {
-    return this.partRepository.softDelete(id);
+  async remove(id: string) {
+    const part = await this.findOne(id);
+
+    if (!part) {
+      throw new NotFoundException();
+    }
+
+    part.isActive = false;
+    return await this.partRepository.save(part);
   }
 }

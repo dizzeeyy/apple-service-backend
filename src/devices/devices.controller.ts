@@ -16,6 +16,7 @@ import { RolesGuard } from 'src/auth/guards/role-auth.guard';
 import { AdminOnly } from 'src/auth/decorators/admin-only.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { PaginationDto } from 'src/users/dto/pagination.dto';
+import { PaginationDtoLegacy } from 'src/common/dto/pagination.dto';
 
 @ApiBearerAuth('jwt-auth')
 @Controller('devices')
@@ -30,11 +31,12 @@ export class DevicesController {
   }
 
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
+  findAll(@Query() paginationDto: PaginationDtoLegacy) {
     const { limit, page } = paginationDto;
     return this.devicesService.findAll(page, limit);
   }
 
+  @AdminOnly()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.devicesService.findOne(id);
