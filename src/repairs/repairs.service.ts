@@ -126,7 +126,10 @@ export class RepairsService {
     return repair;
   }
 
-  async update(id: string, updateRepairDto: UpdateRepairDto) {
+  async update(
+    id: string,
+    updateRepairDto: UpdateRepairDto,
+  ): Promise<RepairEntity> {
     const repair = await this.findOne(id);
 
     if (!repair) {
