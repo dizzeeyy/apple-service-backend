@@ -41,6 +41,7 @@ export class RepairEntity {
   id: string;
 
   @Column({ unique: true })
+  @ApiProperty({ example: 'R-000001' })
   repairNumber: string;
 
   @Column({ unique: true, nullable: true })
