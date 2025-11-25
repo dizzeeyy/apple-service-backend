@@ -75,12 +75,13 @@ export class EmailProcessor extends WorkerHost {
 
     try {
       // Email do serwisu
-      await this.resend.emails.send({
-        from: `Formularz - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
-        to: `Serwis - Repear.pl <${this.configService.get<string>('MAILER_USER')}>`,
-        replyTo: data.email,
-        subject: `Nowe zgłoszenie naprawy: ${data.serialNumber}`,
-        html: `
+      await this.resend.batch.send([
+        {
+          from: `Formularz - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
+          to: `Serwis - Repear.pl <${this.configService.get<string>('MAILER_USER')}>`,
+          replyTo: data.email,
+          subject: `Nowe zgłoszenie naprawy: ${data.serialNumber}`,
+          html: `
           <h2>Nowe zgłoszenie naprawy</h2>
           <p><strong>Imię:</strong> ${data.name}</p>
           <p><strong>Email:</strong> ${data.email}</p>
@@ -88,22 +89,23 @@ export class EmailProcessor extends WorkerHost {
           <p><strong>Numer seryjny:</strong> ${data.serialNumber}</p>
           <p><strong>Opis:</strong> ${data.description}</p>
         `,
-      });
-
-      console.log(`Email wysłany do serwisu`);
-
-      // Email potwierdzający do klienta
-      await this.resend.emails.send({
-        from: `No-reply - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
-        to: data.email,
-        subject: `Potwierdzenie zgłoszenia naprawy: ${data.serialNumber}`,
-        html: `
+        },
+        {
+          from: `No-reply - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
+          to: data.email,
+          subject: `Potwierdzenie zgłoszenia naprawy: ${data.serialNumber}`,
+          html: `
           <h2>Dziękujemy za zgłoszenie!</h2>
           <p>Witaj ${data.name},</p>
           <p>Otrzymaliśmy Twoje zgłoszenie naprawy urządzenia o numerze seryjnym: <strong>${data.serialNumber}</strong></p>
           <p>Skontaktujemy się z Tobą wkrótce pod numerem: ${data.phone}</p>
         `,
-      });
+        },
+      ]);
+
+      console.log(`Email wysłany do serwisu i klienta`);
+
+      // Email potwierdzający do klienta
     } catch (error) {
       console.error(`Błąd podczas wysyłania emaili: ${error.message}`);
     }
