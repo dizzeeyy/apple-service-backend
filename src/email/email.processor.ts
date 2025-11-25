@@ -91,7 +91,7 @@ export class EmailProcessor extends WorkerHost {
         `,
         },
         {
-          from: `No-reply - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
+          from: `Formularz naprawy - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
           to: data.email,
           subject: `Potwierdzenie zgłoszenia naprawy: ${data.serialNumber}`,
           html: `
