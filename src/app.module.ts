@@ -12,6 +12,7 @@ import { RepairsModule } from './repairs/repairs.module';
 import { MailerConfig } from './config/mailer.config';
 import { BullMQConfig } from './config/bullmq.config';
 import { PartsModule } from './parts/parts.module';
+import { ResendModule } from './config/resend.config';
 
 @Module({
   imports: [
@@ -26,8 +27,10 @@ import { PartsModule } from './parts/parts.module';
     DevicesModule,
     RepairsModule,
     PartsModule,
+    ResendModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService, JwtService],
+  exports: [],
 })
 export class AppModule {}

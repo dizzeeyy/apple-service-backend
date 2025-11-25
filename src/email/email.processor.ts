@@ -57,11 +57,13 @@ import { ResendService } from 'nestjs-resend';
 import { Job } from 'bullmq';
 import { RepairsFormDto } from 'src/repairs/dto/form-repair.dto';
 import { ConfigService } from '@nestjs/config';
+import { Inject } from '@nestjs/common';
+import { Resend } from 'resend';
 
 @Processor('emailQueue')
 export class EmailProcessor extends WorkerHost {
   constructor(
-    private readonly resendService: ResendService,
+    @Inject('RESEND_CLIENT') private readonly resend: Resend,
     private readonly configService: ConfigService,
   ) {
     super();
@@ -73,7 +75,7 @@ export class EmailProcessor extends WorkerHost {
 
     try {
       // Email do serwisu
-      await this.resendService.send({
+      await this.resend.emails.send({
         from: 'Formularz - Repear.pl <form@repear.pl>',
         to: `<${this.configService.get<string>('MAILER_USER')}>`,
         replyTo: data.email,
@@ -91,7 +93,7 @@ export class EmailProcessor extends WorkerHost {
       console.log(`Email wysłany do serwisu`);
 
       // Email potwierdzający do klienta
-      await this.resendService.send({
+      await this.resend.emails.send({
         from: 'Repear.pl <noreply@twojadomena.pl>',
         to: data.email,
         subject: `Potwierdzenie zgłoszenia naprawy: ${data.serialNumber}`,
