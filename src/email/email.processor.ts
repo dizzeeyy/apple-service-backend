@@ -94,7 +94,7 @@ export class EmailProcessor extends WorkerHost {
 
       // Email potwierdzający do klienta
       await this.resend.emails.send({
-        from: `Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
+        from: `No-reply - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
         to: data.email,
         subject: `Potwierdzenie zgłoszenia naprawy: ${data.serialNumber}`,
         html: `
