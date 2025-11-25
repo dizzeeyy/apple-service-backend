@@ -76,8 +76,8 @@ export class EmailProcessor extends WorkerHost {
     try {
       // Email do serwisu
       await this.resend.emails.send({
-        from: 'Formularz - Repear.pl <form@repear.pl>',
-        to: `<${this.configService.get<string>('MAILER_USER')}>`,
+        from: `Formularz - Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
+        to: `Serwis - Repear.pl <${this.configService.get<string>('MAILER_USER')}>`,
         replyTo: data.email,
         subject: `Nowe zgłoszenie naprawy: ${data.serialNumber}`,
         html: `
@@ -94,7 +94,7 @@ export class EmailProcessor extends WorkerHost {
 
       // Email potwierdzający do klienta
       await this.resend.emails.send({
-        from: 'Repear.pl <noreply@twojadomena.pl>',
+        from: `Repear.pl <${this.configService.get<string>('MAILER_FROM_ADDRESS')}>`,
         to: data.email,
         subject: `Potwierdzenie zgłoszenia naprawy: ${data.serialNumber}`,
         html: `
