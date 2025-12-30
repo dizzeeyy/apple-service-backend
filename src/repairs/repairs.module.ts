@@ -14,6 +14,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PartEntity } from 'src/parts/entities/parts.entity';
 import { RepearService } from 'src/repear/repear.service';
+import { HttpService } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { RepearService } from 'src/repear/repear.service';
     EmailService,
     EmailProcessor,
     RepearService,
+    HttpService,
   ],
 })
 export class RepairsModule {}
