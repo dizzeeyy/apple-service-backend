@@ -13,6 +13,7 @@ import { MailerConfig } from './config/mailer.config';
 import { BullMQConfig } from './config/bullmq.config';
 import { PartsModule } from './parts/parts.module';
 import { ResendModule } from './config/resend.config';
+import { RepearModule } from './repear/repear.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ResendModule } from './config/resend.config';
     RepairsModule,
     PartsModule,
     ResendModule,
+    RepearModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService, JwtService],

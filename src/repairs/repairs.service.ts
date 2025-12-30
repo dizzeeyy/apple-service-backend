@@ -11,6 +11,7 @@ import { DevicesService } from 'src/devices/devices.service';
 import { RepairsFormDto } from './dto/form-repair.dto';
 import { EmailService } from 'src/email/email.service';
 import { PartEntity } from 'src/parts/entities/parts.entity';
+import { CreateRequestPayload, RepearService } from 'src/repear/repear.service';
 
 @Injectable()
 export class RepairsService {
@@ -29,6 +30,7 @@ export class RepairsService {
     private readonly usersService: UsersService,
     private readonly devicesService: DevicesService,
     private readonly emailService: EmailService,
+    private readonly repearService: RepearService,
   ) {}
 
   async create(createRepairDto: CreateRepairDto) {
@@ -186,9 +188,21 @@ export class RepairsService {
   }
 
   async createMailForm(repairsFormDTO: RepairsFormDto): Promise<any> {
+    const payload: CreateRequestPayload = {
+      title: `Naprawa: ${repairsFormDTO.serialNumber} | ${repairsFormDTO.email}`,
+      description: `Naprawa: ${repairsFormDTO.serialNumber}
+      Opis: ${repairsFormDTO.description}
+      Kontakt: P. ${repairsFormDTO.name} @: ${repairsFormDTO.email} tel: ${repairsFormDTO.phone}`,
+      priority: 'NONE',
+      primaryUser: {
+        id: 82,
+      },
+    };
+
+    const createdRequest = await this.repearService.createRequest(payload);
     const job = await this.emailService.queueEmail(repairsFormDTO);
 
-    return { status: 'OK', jobId: job.id };
+    return { status: 'OK', jobId: job.id, request: createdRequest };
   }
 
   async getEmailJobStatus(jobId: string): Promise<any> {
