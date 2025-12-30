@@ -9,7 +9,7 @@ import { HttpModule } from '@nestjs/axios';
     ConfigModule.forRoot({ isGlobal: true }),
     HttpModule.register({
       baseURL: 'https://api.repear.pl',
-      timeout: 10000,
+      timeout: 60000,
     }),
   ],
   providers: [RepearService],
