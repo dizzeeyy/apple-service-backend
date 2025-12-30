@@ -199,8 +199,9 @@ export class RepairsService {
       },
     };
 
-    const createdRequest = await this.repearService.createRequest(payload);
     const job = await this.emailService.queueEmail(repairsFormDTO);
+
+    const createdRequest = await this.repearService.createRequest(payload);
 
     return { status: 'OK', jobId: job.id, request: createdRequest };
   }
