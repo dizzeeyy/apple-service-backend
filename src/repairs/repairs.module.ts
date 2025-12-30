@@ -15,6 +15,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { PartEntity } from 'src/parts/entities/parts.entity';
 import { RepearService } from 'src/repear/repear.service';
 import { HttpService } from '@nestjs/axios';
+import { RepearModule } from 'src/repear/repear.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { HttpService } from '@nestjs/axios';
       name: 'emailQueue',
     }),
     MailerModule,
+    RepearModule,
   ],
   controllers: [RepairsController],
   providers: [
@@ -38,8 +40,6 @@ import { HttpService } from '@nestjs/axios';
     DevicesService,
     EmailService,
     EmailProcessor,
-    RepearService,
-    HttpService,
   ],
 })
 export class RepairsModule {}

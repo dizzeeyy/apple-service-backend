@@ -14,5 +14,6 @@ import { HttpModule } from '@nestjs/axios';
   ],
   providers: [RepearService],
   controllers: [RepearController],
+  exports: [RepearService],
 })
 export class RepearModule {}
