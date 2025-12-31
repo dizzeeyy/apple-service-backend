@@ -3,10 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { RepairsFormDto } from 'src/repairs/dto/form-repair.dto';
+import { RepearService } from 'src/repear/repear.service';
 
 @Injectable()
 export class EmailService {
-  constructor(@InjectQueue('emailQueue') private emailQueue: Queue) {}
+  constructor(
+    @InjectQueue('emailQueue') private emailQueue: Queue,
+    private repearService: RepearService,
+  ) {}
 
   async queueEmail(repairsFormDTO: RepairsFormDto) {
     const job = await this.emailQueue.add('sendEmail', repairsFormDTO);

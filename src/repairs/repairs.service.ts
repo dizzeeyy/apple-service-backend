@@ -201,9 +201,9 @@ export class RepairsService {
 
     const job = await this.emailService.queueEmail(repairsFormDTO);
 
-    const createdRequest = await this.repearService.createRequest(payload);
+    const createdRequest = this.repearService.createRequest(payload);
 
-    return { status: 'OK', jobId: job.id, request: createdRequest };
+    return { status: 'OK', jobId: job.id };
   }
 
   async getEmailJobStatus(jobId: string): Promise<any> {
