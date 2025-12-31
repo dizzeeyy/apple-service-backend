@@ -189,7 +189,7 @@ export class RepairsService {
 
   async createMailForm(repairsFormDTO: RepairsFormDto): Promise<any> {
     const payload: CreateRequestPayload = {
-      title: `Naprawa: ${repairsFormDTO.serialNumber} | ${repairsFormDTO.email}`,
+      title: `${repairsFormDTO.serialNumber} | ${repairsFormDTO.email}`,
       description: `Naprawa: ${repairsFormDTO.serialNumber}
       Opis: ${repairsFormDTO.description}
       Kontakt: P. ${repairsFormDTO.name} @: ${repairsFormDTO.email} tel: ${repairsFormDTO.phone}`,
