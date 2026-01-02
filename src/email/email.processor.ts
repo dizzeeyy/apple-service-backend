@@ -110,7 +110,7 @@ export class EmailProcessor extends WorkerHost {
           <!-- Header with Logo -->
           <tr>
             <td style="padding: 48px 40px; text-align: center; background-color: #00d084;">
-              <img src="https://serwis.repear.pl/static/images/logo/logo-white.png" alt="Repear Logo" style="max-width: 180px; height: auto; display: block; margin: 0 auto;">
+              <img src="https://serwis.repear.pl/static/images/logo/logo.png" alt="Repear Logo" style="max-width: 180px; height: auto; display: block; margin: 0 auto;">
             </td>
           </tr>
           
@@ -184,7 +184,7 @@ export class EmailProcessor extends WorkerHost {
           <tr>
             <td style="padding: 0 20px; text-align: center;">
               <p style="margin: 0; color: #a0aec0; font-size: 12px; line-height: 1.5;">Ta wiadomość została wysłana automatycznie. Zachowaj ją do celów informacyjnych.</p>
-              <img src="https://serwis.repear.pl/static/images/logo/logo.png" alt="Repear Logo" style="max-width: 80px; height: auto; margin: 0 auto;">
+              <img src="https://serwis.repear.pl/static/images/logo/logo-white.png" alt="Repear Logo" style="max-width: 80px; height: auto; margin: 0 auto;">
             </td>
           </tr>
         </table>

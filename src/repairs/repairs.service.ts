@@ -193,7 +193,7 @@ export class RepairsService {
       .orderBy('repair.repairNumber', 'DESC')
       .getOne();
 
-    let newNumber = 'R-000001';
+    let newNumber = 'R-000003';
 
     if (lastRepair && lastRepair.repairNumber) {
       const lastNumber = parseInt(lastRepair.repairNumber.split('-')[1], 10);
