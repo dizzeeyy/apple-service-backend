@@ -188,6 +188,19 @@ export class RepairsService {
   }
 
   async createMailForm(repairsFormDTO: RepairsFormDto): Promise<any> {
+    const lastRepair = await this.repairRepository
+      .createQueryBuilder('repair')
+      .orderBy('repair.repairNumber', 'DESC')
+      .getOne();
+
+    let newNumber = 'R-000001';
+
+    if (lastRepair && lastRepair.repairNumber) {
+      const lastNumber = parseInt(lastRepair.repairNumber.split('-')[1], 10);
+      const nextNumber = lastNumber + 1;
+      newNumber = `R-${nextNumber.toString().padStart(6, '0')}`;
+    }
+
     const payload: CreateRequestPayload = {
       title: `${repairsFormDTO.serialNumber} | ${repairsFormDTO.email}`,
       description: `Naprawa: ${repairsFormDTO.serialNumber}
@@ -199,11 +212,16 @@ export class RepairsService {
       },
     };
 
-    const job = await this.emailService.queueEmail(repairsFormDTO);
+    const data = {
+      ...repairsFormDTO,
+      repairNumber: newNumber,
+    };
+
+    const job = await this.emailService.queueEmail(data);
 
     const createdRequest = this.repearService.createRequest(payload);
 
-    return { status: 'OK', jobId: job.id };
+    return { status: 'OK', jobId: job.id, repairNumber: newNumber };
   }
 
   async getEmailJobStatus(jobId: string): Promise<any> {

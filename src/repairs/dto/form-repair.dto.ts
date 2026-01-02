@@ -17,4 +17,7 @@ export class RepairsFormDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsString()
+  repairNumber: string;
 }
