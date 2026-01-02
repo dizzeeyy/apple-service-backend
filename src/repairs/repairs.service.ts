@@ -188,12 +188,14 @@ export class RepairsService {
   }
 
   async createMailForm(repairsFormDTO: RepairsFormDto): Promise<any> {
-    const lastRepair = await this.repairRepository
-      .createQueryBuilder('repair')
-      .orderBy('repair.repairNumber', 'DESC')
-      .getOne();
+    // const lastRepair = await this.repairRepository
+    //   .createQueryBuilder('repair')
+    //   .orderBy('repair.repairNumber', 'DESC')
+    //   .getOne();
 
-    let newNumber = 'R-000003';
+    const lastRepair = { repairNumber: 'R-000007' };
+
+    let newNumber = 'R-000001';
 
     if (lastRepair && lastRepair.repairNumber) {
       const lastNumber = parseInt(lastRepair.repairNumber.split('-')[1], 10);
