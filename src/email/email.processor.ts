@@ -169,7 +169,10 @@ export class EmailProcessor extends WorkerHost {
             <td style="padding: 32px 40px; text-align: center;">
               <p style="margin: 0 0 12px; color: #718096; font-size: 14px; line-height: 1.5;">Masz pytania? Odpowiedz na tego maila lub odwiedź naszą stronę.</p>
               <p style="margin: 0 0 16px;">
-                <a href="https://repear.pl" style="color: #00d084; text-decoration: none; font-weight: 600; font-size: 14px;">repear.pl</a>
+                 <span style="margin: 0 0 12px; color: #718096; font-size: 14px; line-height: 1.5;"> Napisz do nas: </span>
+                <a href="mailto:serwis@repear.pl" style="color: #00d084; text-decoration: none; font-weight: 600; font-size: 14px;"> serwis@repear.pl</a>
+                <span style="margin: 0 0 12px; color: #718096; font-size: 14px; line-height: 1.5;"> lub zadzwoń </span>
+                <a href="callto:serwis@repear.pl" style="color: #00d084; text-decoration: none; font-weight: 600; font-size: 14px;">tel: 693 661 462</a>
               </p>
               <p style="margin: 0; color: #a0aec0; font-size: 13px;">© 2026 Repear. Wszystkie prawa zastrzeżone.</p>
             </td>
